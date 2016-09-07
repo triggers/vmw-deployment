@@ -18,8 +18,8 @@ mac_to_vm_name()
 
     vmname="$(
       grep -F "$(get_local_macs)" <<<"$raw_mac_info" | \
-	while IFS='/:' read vm thereset ; do 
-           echo "$vm"
+	while IFS='/:' read empty-start-of-line thevm rest-of-line ; do 
+           echo "$thevm"
         done | sort -u
     )"
     # vmname should be one line
