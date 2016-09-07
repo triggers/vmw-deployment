@@ -5,7 +5,7 @@ vmname="$1"  # should be something like gw01
 echo "Running gw.sh script for $vmname"
 
 justdigits="${vmname//[^0-9]/}"
-ipsuffix=$(( $justdigits ))
+ipsuffix=$(( $justdigits + 10 ))
 if [ "$ipsuffix" -lt "1" ] || [ "$ipsuffix" -gt "254" ]; then
     echo "Generated suffix ($ipsuffix) invalid" 1>&2
     ipsuffix=99
