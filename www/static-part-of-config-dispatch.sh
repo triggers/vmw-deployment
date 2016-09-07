@@ -62,4 +62,4 @@ echo "Script $sc returned error $rc" 1>&2
 
 exit "$rc"
 
-#end-of-script#  # <<-minimal check to make sure whole script was downloaded
+#end of script#  # <<-minimal check to make sure whole script was downloaded
