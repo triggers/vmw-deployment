@@ -32,6 +32,8 @@ mac_to_vm_name()
 vm_to_script_name()
 {
     case "$1" in
+	gw*) echo gw.sh
+	   ;;
 	*) echo default.sh
 	   ;;
     esac
@@ -49,7 +51,7 @@ checkpat='#end of script#'
 }
 
 # run the script!
-"$sn" "$vmn"
+bash "$sn" "$vmn"
 rc="$?"
 
 if [ "$rc" = "0" ] ; then
