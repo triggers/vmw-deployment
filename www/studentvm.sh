@@ -2,7 +2,7 @@
 
 vmname="$1"  # should be something like t01-vm01
 
-echo "Running gw.sh script for $vmname"
+echo "Running studentvm.sh script for $vmname"
 
 ipsuffix="${vmname#*vm}"  # now just 01
 
