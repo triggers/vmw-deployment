@@ -30,7 +30,8 @@ cat >www/config-dispatch.sh <<EOF
 
 echo "Running config-dispatch.sh built at $(date)"
 
-raw_mac_info='$rawmacs'
+raw_mac_info='$rawmacs
+'
 
 EOF
 

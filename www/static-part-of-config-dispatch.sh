@@ -17,7 +17,7 @@ mac_to_vm_name()
     #/mastergw.vmx:ethernet1.generatedAddress = "00:0c:29:89:0a:c0"
 
     vmname="$(
-      grep -F "$(get_local_macs)" "$raw_mac_info" | \
+      grep -F "$(get_local_macs)" <<<"$raw_mac_info" | \
 	while IFS='/:' read vm thereset ; do 
            echo "$vm"
         done | sort -u
