@@ -35,3 +35,4 @@ IPADDR=192.168.4.1
 NETMASK=255.255.255.0
 EOF
 
+#end of script#  # <<-minimal check to make sure whole script was downloaded
