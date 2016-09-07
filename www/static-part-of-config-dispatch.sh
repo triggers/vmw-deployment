@@ -63,6 +63,7 @@ rc="$?"
 
 if [ "$rc" = "0" ] ; then
     rm keep-polling  # stop script from being called again until the next VM boot
+    exit 0
 fi
 
 echo "Script $sc returned error $rc" 1>&2
