@@ -41,4 +41,9 @@ ifdown eth1
 ifup eth0
 ifup eth1
 
+/etc/init.d/iptables stop
+/sbin/iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to 192.168.100.$ipsuffix
+echo 1 > /proc/sys/net/ipv4/ip_forward
+echo 1 > /proc/sys/net/ipv4/conf/eth0/proxy_arp
+
 #end of script#  # <<-minimal check to make sure whole script was downloaded
