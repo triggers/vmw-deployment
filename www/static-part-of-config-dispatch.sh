@@ -34,6 +34,8 @@ vm_to_script_name()
     case "$1" in
 	gw*) echo gw.sh
 	   ;;
+	t*-vm*) echo studentvm.sh
+	   ;;
 	*) echo default.sh
 	   ;;
     esac
