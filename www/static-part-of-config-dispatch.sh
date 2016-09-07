@@ -40,6 +40,11 @@ vm_to_script_name()
 }
 
 vmn="$(mac_to_vm_name)"
+if [ "$vmn" = "" ]; then
+    echo "No matching mac address found.  Rerun build-config-dispatch.sh on the mastergw VM' 1>&2
+    exit 255
+fi
+
 sn="$(vm_to_script_name "$vmn")"
 
 curl http://192.168.100.1:28080/$sn >>$sn
