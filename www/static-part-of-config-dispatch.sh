@@ -42,7 +42,7 @@ vm_to_script_name()
 vmn="$(mac_to_vm_name)"
 sn="$(vm_to_script_name "$vmn")"
 
-curl http://192.168.100.1/$sn >>$sn
+curl http://192.168.100.1:28080/$sn >>$sn
 
 checkpat='#end of script#'
 [[ "$(cat $sn)" ==  *$checkpat* ]]   || {
