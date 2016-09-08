@@ -56,15 +56,15 @@ ifup eth1
 
 # wait for networking to stabilize
 for i in $(seq 1 10); do
-    [[ "$(echo | nc 192.168.100.1 22)" == *ssh* ]] && break
+    [[ "$(echo | nc 192.168.100.1 22)" == *SSH* ]] && break
     sleep 5
 done
 
+# if no networking, give up:
+[[ "$(echo | nc 192.168.100.1 22)" == *SSH* ]] || exit 255
+
 configure_manual_vms()
 {
-    # if no networking, give up:
-    [[ "$(echo | nc 192.168.100.1 22)" == *ssh* ]] || exit 255
-
     yum install -y git wget
 
     ## Installing openvz by following the instructions from here:
@@ -75,7 +75,7 @@ configure_manual_vms()
 
     rpm --import http://download.openvz.org/RPM-GPG-Key-OpenVZ
 
-    yum install vzkernel
+    yum install -y vzkernel
 
     ## these values will be replaced by the stuff below
     sed -i 's,net.ipv4.ip_forward,### net.ipv4.ip_forward,' /etc/sysctl.conf
@@ -102,7 +102,7 @@ EEE
 
     echo "SELINUX=disabled" > /etc/sysconfig/selinux
 
-    yum install vzctl vzquota ploop
+    yum install -y vzctl vzquota ploop
 }
 
 configure_wakame_vms()
