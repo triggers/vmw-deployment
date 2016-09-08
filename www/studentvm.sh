@@ -144,4 +144,6 @@ esac
 # turn off configuration boot script
 echo 'exit' >do-first.sh
 
+reboot
+
 #end of script#  # <<-minimal check to make sure whole script was downloaded
