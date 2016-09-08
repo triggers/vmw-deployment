@@ -1,5 +1,11 @@
 #!/bin/bash
 
+set -x
+
+echo "Running studentvm.sh script for $vmname (logging in studentvm.log)"
+
+exec >/root/studentvm.log 2>&1 
+
 vmname="$1"  # should be something like t01-vm01
 
 echo "Running studentvm.sh script for $vmname"
@@ -47,5 +53,84 @@ ifdown eth1
 
 # ifup eth0  # leave this one down
 ifup eth1
+
+# wait for networking to stabilize
+for i in $(seq 1 10); do
+    [[ "$(echo | nc 192.168.100.1 22)" == *ssh* ]] && break
+    sleep 5
+done
+
+configure_manual_vms()
+{
+    # if no networking, give up:
+    [[ "$(echo | nc 192.168.100.1 22)" == *ssh* ]] || exit 255
+
+    yum install -y git wget
+
+    ## Installing openvz by following the instructions from here:
+    ##    https://wiki.openvz.org/Vzstats
+    ##
+
+    wget -P /etc/yum.repos.d/ https://download.openvz.org/openvz.repo
+
+    rpm --import http://download.openvz.org/RPM-GPG-Key-OpenVZ
+
+    yum install vzkernel
+
+    ## these values will be replaced by the stuff below
+    sed -i 's,net.ipv4.ip_forward,### net.ipv4.ip_forward,' /etc/sysctl.conf
+    sed -i 's,kernel.sysrq,### kernel.sysrq,' /etc/sysctl.conf
+
+    cat >>/etc/sysctl.conf <<EEE
+# On Hardware Node we generally need
+# packet forwarding enabled and proxy arp disabled
+net.ipv4.ip_forward = 1
+net.ipv6.conf.default.forwarding = 1
+net.ipv6.conf.all.forwarding = 1
+net.ipv4.conf.default.proxy_arp = 0
+
+# Enables source route verification
+net.ipv4.conf.all.rp_filter = 1
+
+# Enables the magic-sysrq key
+kernel.sysrq = 1
+
+# We do not want all our interfaces to send redirects
+net.ipv4.conf.default.send_redirects = 1
+net.ipv4.conf.all.send_redirects = 0
+EEE
+
+    echo "SELINUX=disabled" > /etc/sysconfig/selinux
+
+    yum install vzctl vzquota ploop
+}
+
+configure_wakame_vms()
+{
+    echo TODO-configure_wakame_vms
+}
+
+set_hostname()
+{
+    hostname "$1"
+    sed -i "s,HOSTNAME=.*,HOSTNAME=$1.localdomain," /etc/sysconfig/network
+    echo 127.0.0.1 $1 >>/etc/hosts
+}
+
+case "$ipsuffix" in
+    # manual{1,2} VMs:
+    01 | 02)
+	configure_manual_vms
+	set_hostname manual${ipsuffix#0}
+	;;
+    03 | 04)
+	configure_wakame_vms
+	set_hostname manual${ipsuffix#0}
+	;;
+esac
+
+# assume configuration was OK
+# turn off configuration boot script
+echo 'exit' >do-first.sh
 
 #end of script#  # <<-minimal check to make sure whole script was downloaded
