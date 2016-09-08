@@ -103,6 +103,12 @@ EEE
     echo "SELINUX=disabled" > /etc/sysconfig/selinux
 
     yum install -y vzctl vzquota ploop
+
+    (
+	set -e
+	cd /vz/template/cache
+	wget http://192.168.100.1:28080/downloads/centos-6-x86_64-minimal.tar.gz
+    ) || exit 255
 }
 
 configure_wakame_vms()
@@ -116,6 +122,8 @@ set_hostname()
     sed -i "s,HOSTNAME=.*,HOSTNAME=$1.localdomain," /etc/sysconfig/network
     echo 127.0.0.1 $1 >>/etc/hosts
 }
+
+set -e
 
 case "$ipsuffix" in
     # manual{1,2} VMs:
