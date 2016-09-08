@@ -10,9 +10,9 @@ vmname="$1"  # should be something like t01-vm01
 
 echo "Running studentvm.sh script for $vmname"
 
-ipsuffix="${vmname#*vm}"  # now just 01
+vmnumber="${vmname#*vm}"  # now just 01
 
-case "$ipsuffix" in
+case "$vmnumber" in
     # manual{1,2} VMs:
     01) ipsuffix=11 ;;
     02) ipsuffix=12 ;;
@@ -124,16 +124,16 @@ set_hostname()
 }
 
 set -e
-echo ipsuffix is still "$ipsuffix"
-case "$ipsuffix" in
+
+case "$vmnumber" in
     # manual{1,2} VMs:
     01 | 02)
 	configure_manual_vms
-	set_hostname manual${ipsuffix#0}
+	set_hostname manual${vmnumber#0}
 	;;
     03 | 04)
 	configure_wakame_vms
-	set_hostname manual${ipsuffix#0}
+	set_hostname manual${vmnumber#0}
 	;;
     *)
 	echo bug
