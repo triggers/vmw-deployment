@@ -65,7 +65,7 @@ done
 
 configure_manual_vms()
 {
-    yum install -y git wget
+    yum install -y wget git lsof
 
     ## Installing openvz by following the instructions from here:
     ##    https://wiki.openvz.org/Vzstats
@@ -124,7 +124,7 @@ set_hostname()
 }
 
 set -e
-
+echo ipsuffix is still "$ipsuffix"
 case "$ipsuffix" in
     # manual{1,2} VMs:
     01 | 02)
@@ -134,6 +134,9 @@ case "$ipsuffix" in
     03 | 04)
 	configure_wakame_vms
 	set_hostname manual${ipsuffix#0}
+	;;
+    *)
+	echo bug
 	;;
 esac
 
