@@ -4,7 +4,7 @@ set -x
 
 echo "Running studentvm.sh script for $vmname (logging in studentvm.log)"
 
-exec >/root/studentvm.log 2>&1 
+exec >>/root/studentvm.log 2>&1 
 
 vmname="$1"  # should be something like t01-vm01
 
