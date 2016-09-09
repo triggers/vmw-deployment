@@ -55,4 +55,17 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDk+Y8KrCFZaGJdstRvqrmvB7ZYvSRP0vMQsMovnDRs
 EOF
 chmod 644 /root/.ssh/authorized_keys
 
+useradd centos
+echo centos | passwd centos --stdin
+
+(
+    cd /root
+    tar czvf /tmp/s.tar.gz .ssh
+    cd /home/centos
+    tar xzvf /tmp/s.tar.gz
+    chown centos:centos .ssh
+)
+
+echo "centos ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers
+
 #end of script#  # <<-minimal check to make sure whole script was downloaded
