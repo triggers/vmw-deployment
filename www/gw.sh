@@ -46,4 +46,13 @@ ifup eth1
 echo 1 > /proc/sys/net/ipv4/ip_forward
 echo 1 > /proc/sys/net/ipv4/conf/eth0/proxy_arp
 
+
+mkdir -p /root/.ssh
+chmod 700 /root/.ssh
+# from vmwgkey.pub
+cat >/root/.ssh/authorized_keys <<EOF
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDk+Y8KrCFZaGJdstRvqrmvB7ZYvSRP0vMQsMovnDRsbKlzoG7IgtreLFPDoCklHj2hsFszUlgsIB/2+zDDX2nk4sSiLXABMfzkaMZl0O7Bvq//1ULMWsQw/uuIP7ocxIAsqoxrlnmbEcP1GE1rU0cgGOOkoEyeZe/3WQ2iw7qA8wnMDzFHIHvIUO4BNW5RUyv/9E6WioG+vFRq11+AvcJu9NV3yHFzRn5H9JipeCU9WObP9c8YYlsCG1e+IdiWZAbKUizPg6tRzhkvUHZc3id2Sy4uGnt4rH8pLtQFt/u5ZrtXMJ7jML9n7Tw55pScWeAyzKVW/bxu4GBjifqFomF5 knoppix@Microknoppix
+EOF
+chmod 644 /root/.ssh/authorized_keys
+
 #end of script#  # <<-minimal check to make sure whole script was downloaded
