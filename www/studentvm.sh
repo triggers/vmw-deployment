@@ -63,6 +63,8 @@ done
 # if no networking, give up:
 [[ "$(echo | nc 192.168.100.1 22)" == *SSH* ]] || exit 255
 
+chkconfig iptables off
+
 configure_manual_vms()
 {
     yum install -y wget git lsof
