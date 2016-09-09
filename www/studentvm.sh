@@ -142,7 +142,7 @@ configure_wakame_vms()
 	cd /
 	curl 192.168.100.1:28080/downloads/var-cache-yum.tar | tar xv
 	cd /home/centos
-	curl 192.168.100.1:28080/downloads/stuff_to_prepare.tar.md5 | tar xv
+	curl 192.168.100.1:28080/downloads/stuff_to_prepare.tar | tar xv
 	mv stuff_to_prepare/images .
 	mv stuff_to_prepare/ssh_key_pair .
 	rmdir stuff_to_prepare
