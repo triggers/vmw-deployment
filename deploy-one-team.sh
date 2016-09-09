@@ -10,6 +10,7 @@ failed()
 
 teamnumber="$1"
 
+[[ "$teamnumber" == [0-9] ]] && teamnumber=0$teamnumber   # make the UI a little nicer
 [[ "$teamnumber" == [0-9][0-9] ]] || failed "Parameter must be two digit team number"
     
 eee='esxcli -s 192.168.1.219 -u root -d 1A:A8:3F:CE:AB:D1:31:11:0C:7A:CB:3C:1D:1E:2D:E8:72:DE:99:EC -p Wakame4Axsh'
