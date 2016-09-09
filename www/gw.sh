@@ -68,4 +68,8 @@ echo centos | passwd centos --stdin
 
 echo "centos ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers
 
+# turn off configuration boot script
+mkdir -p /root/hide
+mv /root/poll-for-vm-auto-conf.sh /root/hide 2>/dev/null || true
+
 #end of script#  # <<-minimal check to make sure whole script was downloaded
