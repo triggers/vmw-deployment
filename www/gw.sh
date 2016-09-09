@@ -56,7 +56,9 @@ EOF
 chmod 644 /root/.ssh/authorized_keys
 
 useradd centos
-echo centos | passwd centos --stdin
+
+# make gateway pw different so users do not log in accidentally
+echo "notcentos" | passwd centos --stdin
 
 (
     cd /root
