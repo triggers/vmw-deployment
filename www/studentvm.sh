@@ -142,7 +142,11 @@ esac
 
 # assume configuration was OK
 # turn off configuration boot script
-echo 'exit' >do-first.sh
+
+## echo 'exit' >do-first.sh  ## does not work because launched in subprocess
+# so
+mkdir -p /root/hide
+mv /root/poll-for-vm-auto-conf.sh /root/hide 2>/dev/null || true
 
 reboot
 
