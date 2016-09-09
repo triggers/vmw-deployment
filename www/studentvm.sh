@@ -86,10 +86,12 @@ echo centos | passwd centos --stdin
 
 echo "centos ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers
 
+sed -i 's,keepcache=0,keepcache=1,' /etc/yum.conf
+
+yum install -y wget git lsof nano
+
 configure_manual_vms()
 {
-    yum install -y wget git lsof
-
     ## Installing openvz by following the instructions from here:
     ##    https://wiki.openvz.org/Vzstats
     ##
@@ -136,7 +138,15 @@ EEE
 
 configure_wakame_vms()
 {
-    echo TODO-configure_wakame_vms
+    (
+	cd /
+	curl 192.168.100.1:28080/downloads/var-cache-yum.tar | tar xv
+	cd /home/centos
+	curl 192.168.100.1:28080/downloads/stuff_to_prepare.tar.md5 | tar xv
+	mv stuff_to_prepare/images .
+	mv stuff_to_prepare/ssh_key_pair .
+	rmdir stuff_to_prepare
+    )
 }
 
 set_hostname()
@@ -156,7 +166,7 @@ case "$vmnumber" in
 	;;
     03 | 04)
 	configure_wakame_vms
-	set_hostname manual${vmnumber#0}
+	set_hostname wakame$(( 10#$vmnumber - 2 ))
 	;;
     *)
 	echo bug
