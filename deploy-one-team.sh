@@ -47,6 +47,6 @@ done
 
 for i in 05 06 07; do
     time ovftool --name="t${teamnumber}-vm${i}" --datastore="ahd" \
-	 --net:"VM Network"="t${teamnumber}-net5-pg" --net:"pg1"="t${teamnumber}-net4-pg" \
+	 --net:"VM Network"="t${teamnumber}-net4-pg" --net:"pg1"="t${teamnumber}-net5-pg" \
 	 -dm=thin /root/ovftool/centos68-x86-autoconf16.ovf vi://root:Wakame4Axsh@192.168.1.219
 done
