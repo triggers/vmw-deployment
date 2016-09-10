@@ -35,8 +35,8 @@ IPADDR=192.168.4.1
 NETMASK=255.255.255.0
 EOF
 
-cat >/etc/sysconfig/network-scripts/ifcfg-eth1 <<EOF
-DEVICE=eth1
+cat >/etc/sysconfig/network-scripts/ifcfg-eth2 <<EOF
+DEVICE=eth2
 TYPE=Ethernet
 ONBOOT=yes
 NM_CONTROLLED=no
