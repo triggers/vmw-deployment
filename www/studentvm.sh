@@ -206,6 +206,18 @@ EEE
     )
 }
 
+configure_wakame_vms_wo_images()
+{
+    (
+	cd /
+	curl 192.168.100.1:28080/downloads/var-cache-yum.tar | tar xv
+
+	cd /home/centos
+	curl 192.168.100.1:28080/downloads/ssh_key_pair.tar | tar xv
+	chown -R centos:centos ssh_key_pair
+    )
+}
+
 configure_wakame_vms()
 {
     (
@@ -243,7 +255,11 @@ case "$vmnumber" in
 	configure_wakame_vms
 	set_hostname wakame$(( 10#$vmnumber - 2 ))
 	;;
-    05 | 06 | 07)
+    05)
+	configure_wakame_vms_wo_images
+	set_hostname host$(( 10#$vmnumber - 4 ))
+	;;
+    06 | 07)
 	configure_wakame_vms
 	set_hostname host$(( 10#$vmnumber - 4 ))
 	;;
