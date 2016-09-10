@@ -23,6 +23,7 @@ for i in 1 2 3 4 5; do
     echo
     echo " --- $i ---"
     ssh_vswitch_cmd add -v t${teamnumber}-net${i}
+    ssh_vswitch_cmd policy security set  -p true -v t${teamnumber}-net${i}
     ssh_vswitch_cmd portgroup add -p t${teamnumber}-net${i}-pg -v t${teamnumber}-net${i}
 done
 
