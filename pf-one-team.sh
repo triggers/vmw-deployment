@@ -26,6 +26,9 @@ pfparams="$(
       echo -n  " -L ${aport}:192.168.4.${i}:22"
   done
 
+  # and one for Wakame WebUI
+  aport="2${teamnumber}90"
+  echo -n  " -L ${aport}:192.168.4.21:9000"  # connect to wakame2 VM
 )"
 
 ssh root@"$IP" $pfparams -g  sleep 999${teamnumber}
