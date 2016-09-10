@@ -21,7 +21,7 @@ ssh_vswitch_cmd() { ssh root@192.168.1.219 esxcli network vswitch standard "$@" 
 
 for i in 1 2 3; do
     ssh_vswitch_cmd add -v t${teamnumber}-net${i}
-    ssh_vswitch_cmd portgroup add -p t02-net1-pg -v t${teamnumber}-net${i}
+    ssh_vswitch_cmd portgroup add -p t${teamnumber}-net1-pg -v t${teamnumber}-net${i}
 done
 exit
 time ovftool --name="gw${teamnumber}" --datastore="ahd" \
