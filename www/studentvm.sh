@@ -134,6 +134,12 @@ EEE
 	cd /vz/template/cache
 	wget http://192.168.100.1:28080/downloads/centos-6-x86_64-minimal.tar.gz
     ) || exit 255
+
+    (
+	cd /home/centos
+	curl 192.168.100.1:28080/downloads/ssh_key_pair.tar | tar xv
+	chown -R centos:centos ssh_key_pair
+    )
 }
 
 configure_wakame_vms()
