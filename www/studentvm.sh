@@ -21,11 +21,18 @@ case "$vmnumber" in
     03) ipsuffix=21 ;;
     04) ipsuffix=22 ;;
     
-    *) ipsuffix=99 ;;
+    # host{1,2,3} VMs:
+    05) ipsuffix=11 ;;
+    06) ipsuffix=12 ;;
+    07) ipsuffix=13 ;;
+    
+    *) exit 255 ;; # bug, give up
 esac
 
-
-cat >/etc/sysconfig/network-scripts/ifcfg-eth0 <<EOF
+eth1-is-instance-network-setup()
+{
+    subnet=192.168.4
+    cat >/etc/sysconfig/network-scripts/ifcfg-eth0 <<EOF
 DEVICE=eth0
 TYPE=Ethernet
 UUID=ad672589-bb38-4340-87da-2cde1afb9649
@@ -36,23 +43,76 @@ IPADDR=192.168.99.99
 NETMASK=255.255.255.0
 EOF
 
-cat >/etc/sysconfig/network-scripts/ifcfg-eth1 <<EOF
+    cat >/etc/sysconfig/network-scripts/ifcfg-eth1 <<EOF
 DEVICE=eth1
 TYPE=Ethernet
 UUID=f7d6973b-1eb2-4ec1-85b4-9f8c3d50f1cc
 ONBOOT=yes
 NM_CONTROLLED=no
 BOOTPROTO=static
-IPADDR=192.168.4.$ipsuffix
+IPADDR=${subnet}.$ipsuffix
 NETMASK=255.255.255.0
-GATEWAY=192.168.4.1
+GATEWAY=192.168.${subnet##*.}.1
 EOF
 
-ifdown eth0
-ifdown eth1
+    ifdown eth0
+    ifdown eth1
 
-# ifup eth0  # leave this one down
-ifup eth1
+    # ifup eth0  # leave this one down
+    ifup eth1
+}
+
+eth0-is-instance-network-setup()
+{
+    subnet=192.168.5
+    cat >/etc/sysconfig/network-scripts/ifcfg-eth0 <<EOF
+DEVICE=eth0
+TYPE=Ethernet
+UUID=f7d6973b-1eb2-4ec1-85b4-9f8c3d50f1cc
+ONBOOT=yes
+NM_CONTROLLED=no
+BOOTPROTO=static
+IPADDR=${subnet}.$ipsuffix
+NETMASK=255.255.255.0
+GATEWAY=192.168.${subnet##*.}.1
+EOF
+
+    cat >/etc/sysconfig/network-scripts/ifcfg-eth1 <<EOF
+DEVICE=eth1
+TYPE=Ethernet
+UUID=ad672589-bb38-4340-87da-2cde1afb9649
+ONBOOT=no
+NM_CONTROLLED=no
+BOOTPROTO=static
+IPADDR=172.16.5.99
+NETMASK=255.255.255.0
+EOF
+
+    ifdown eth0
+    ifdown eth1
+
+    ifup eth0
+    # ifup eth1  # leave this one down
+}
+
+case "$vmnumber" in
+    # manual{1,2} and wakame{1,2} VMs:
+    01 | 02 | 03 | 04)
+	eth1-is-instance-network-setup
+	;;
+    # host1 VM
+    05)
+	eth0-is-instance-network-setup
+	sed -i 's/5.99/5.11/' /etc/sysconfig/network-scripts/ifcfg-eth1
+	ifup eth1  # special for host1: bring up eth1
+	;;
+    # host{2,3} VMs
+    06 | 07)
+	eth0-is-instance-network-setup
+	;;
+    
+    *) exit 255 ;; # bug, give up
+esac
 
 # wait for networking to stabilize
 for i in $(seq 1 10); do
@@ -178,6 +238,10 @@ case "$vmnumber" in
     03 | 04)
 	configure_wakame_vms
 	set_hostname wakame$(( 10#$vmnumber - 2 ))
+	;;
+    05 | 06 | 07)
+	configure_wakame_vms
+	set_hostname host$(( 10#$vmnumber - 4 ))
 	;;
     *)
 	echo bug
