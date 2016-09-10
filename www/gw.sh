@@ -58,6 +58,11 @@ ifup eth2
 echo 1 > /proc/sys/net/ipv4/ip_forward
 echo 1 > /proc/sys/net/ipv4/conf/eth0/proxy_arp
 
+# magic to configure whatever VM wants to attach to eth2
+ifconfig eth2:0 10.11.12.13 netmask 255.255.255.255 up
+sudo route add -net 10.11.12.0/24 dev eth2
+# (as long as the VM specifies 10.11.12.13 as its default
+#  gateway, packets should reach here and be NATed normally)
 
 mkdir -p /root/.ssh
 chmod 700 /root/.ssh
