@@ -138,7 +138,7 @@ EOF
 chmod 644 /root/.ssh/authorized_keys
 
 useradd centos
-echo centos | passwd centos --stdin
+echo "centos${vmnumber#0}" | passwd centos --stdin
 
 (
     cd /root
