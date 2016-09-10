@@ -104,7 +104,8 @@ case "$vmnumber" in
     05)
 	eth0-is-instance-network-setup
 	sed -i 's/5.99/5.11/' /etc/sysconfig/network-scripts/ifcfg-eth1
-	ifup eth1  # special for host1: bring up eth1
+	# special for host1: bring up eth1 after the reboot below
+	sed -i 's/ONBOOT=no/ONBOOT=yes/' /etc/sysconfig/network-scripts/ifcfg-eth1
 	;;
     # host{2,3} VMs
     06 | 07)
