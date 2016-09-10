@@ -27,13 +27,15 @@ false && for i in 1 2 3 4 5; do
     ssh_vswitch_cmd portgroup add -p t${teamnumber}-net${i}-pg -v t${teamnumber}-net${i}
 done
 
-false && time ovftool --name="gw${teamnumber}" --datastore="ahd" \
-     --net:"VM Network"="class-net-pg" --net:"pg1"="t${teamnumber}-net1-pg" \
-     -dm=thin /root/ovftool/centos68-x86-autoconf16.ovf vi://root:Wakame4Axsh@192.168.1.219
+time ovftool --name="gw${teamnumber}" --datastore="ahd" \
+     --net:"class-net-pg"="class-net-pg" \
+     --net:"t02-net1-pg"="t${teamnumber}-net1-pg" \
+     --net:"t02-net4-pg"="t${teamnumber}-net4-pg" \
+     -dm=thin /root/ovftool/centos68-x86-autoconf16-3nic.ovf vi://root:Wakame4Axsh@192.168.1.219
 
 # exit # STILL TESTING!
 
-for i in 01 02; do
+false && for i in 01 02; do
     time ovftool --name="t${teamnumber}-vm${i}" --datastore="ahd" \
 	 --net:"VM Network"="t${teamnumber}-net2-pg" --net:"pg1"="t${teamnumber}-net1-pg" \
 	 -dm=thin /root/ovftool/centos68-x86-autoconf16.ovf vi://root:Wakame4Axsh@192.168.1.219
@@ -45,7 +47,7 @@ false && for i in 03 04; do
 	 -dm=thin /root/ovftool/centos68-x86-autoconf16.ovf vi://root:Wakame4Axsh@192.168.1.219
 done
 
-for i in 05 06 07; do
+false && for i in 05 06 07; do
     time ovftool --name="t${teamnumber}-vm${i}" --datastore="ahd" \
 	 --net:"VM Network"="t${teamnumber}-net4-pg" --net:"pg1"="t${teamnumber}-net5-pg" \
 	 -dm=thin /root/ovftool/centos68-x86-autoconf16.ovf vi://root:Wakame4Axsh@192.168.1.219
