@@ -19,7 +19,7 @@ ssh_vswitch_cmd() { ssh root@192.168.1.219 esxcli network vswitch standard "$@" 
 
 # ssh_vswitch_cmd() { echo  "$@" ; }  # disable for now
 
-false & for i in 1 2 3 4 5; do
+false && for i in 1 2 3 4 5; do
     echo
     echo " --- $i ---"
     ssh_vswitch_cmd add -v t${teamnumber}-net${i}
@@ -27,19 +27,19 @@ false & for i in 1 2 3 4 5; do
     ssh_vswitch_cmd portgroup add -p t${teamnumber}-net${i}-pg -v t${teamnumber}-net${i}
 done
 
-false & time ovftool --name="gw${teamnumber}" --datastore="ahd" \
+false && time ovftool --name="gw${teamnumber}" --datastore="ahd" \
      --net:"VM Network"="class-net-pg" --net:"pg1"="t${teamnumber}-net1-pg" \
      -dm=thin /root/ovftool/centos68-x86-autoconf16.ovf vi://root:Wakame4Axsh@192.168.1.219
 
 # exit # STILL TESTING!
 
-false & for i in 01 02; do
+for i in 01 02; do
     time ovftool --name="t${teamnumber}-vm${i}" --datastore="ahd" \
 	 --net:"VM Network"="t${teamnumber}-net2-pg" --net:"pg1"="t${teamnumber}-net1-pg" \
 	 -dm=thin /root/ovftool/centos68-x86-autoconf16.ovf vi://root:Wakame4Axsh@192.168.1.219
 done
 
-false & for i in 03 04; do
+false && for i in 03 04; do
     time ovftool --name="t${teamnumber}-vm${i}" --datastore="ahd" \
 	 --net:"VM Network"="t${teamnumber}-net3-pg" --net:"pg1"="t${teamnumber}-net1-pg" \
 	 -dm=thin /root/ovftool/centos68-x86-autoconf16.ovf vi://root:Wakame4Axsh@192.168.1.219
