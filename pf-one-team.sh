@@ -31,4 +31,5 @@ pfparams="$(
   echo -n  " -L ${aport}:192.168.4.21:9000"  # connect to wakame2 VM
 )"
 
-ssh root@"$IP" $pfparams -g  sleep 999${teamnumber}
+## TODO: compare with other port forwarding solutions
+ssh root@"$IP" $pfparams -g  sleep 9999${teamnumber}  # 999900 seconds is 11 days
