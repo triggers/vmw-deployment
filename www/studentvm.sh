@@ -87,7 +87,10 @@ BOOTPROTO=static
 IPADDR=172.16.5.99
 NETMASK=255.255.255.0
 EOF
-
+    
+    rm -f /etc/sysconfig/network-scripts/ifcfg-eth{2,3,4,5}
+    rm -f /etc/sysconfig/network-scripts/ifcfg-eth*~
+    
     ifdown eth0
     ifdown eth1
 
