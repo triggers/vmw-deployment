@@ -35,11 +35,23 @@ IPADDR=192.168.4.1
 NETMASK=255.255.255.0
 EOF
 
+cat >/etc/sysconfig/network-scripts/ifcfg-eth1 <<EOF
+DEVICE=eth1
+TYPE=Ethernet
+ONBOOT=yes
+NM_CONTROLLED=no
+BOOTPROTO=static
+IPADDR=192.168.5.1
+NETMASK=255.255.255.0
+EOF
+
 ifdown eth0
 ifdown eth1
+ifdown eth2
 
 ifup eth0
 ifup eth1
+ifup eth2
 
 /etc/init.d/iptables stop
 /sbin/iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to 192.168.100.$ipsuffix
