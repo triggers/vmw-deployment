@@ -26,9 +26,19 @@ pfparams="$(
       echo -n  " -L ${aport}:192.168.4.${i}:22"
   done
 
+  # for host{1,2,3}
+  for i in 31 32 33; do
+      aport="2${teamnumber}${i}"
+      echo -n  " -L ${aport}:192.168.5.$(( $i - 20  )):22"
+  done
+
   # and one for Wakame WebUI
   aport="2${teamnumber}90"
   echo -n  " -L ${aport}:192.168.4.21:9000"  # connect to wakame2 VM
+
+  # and one for Wakame WebUI
+  aport="2${teamnumber}39"
+  echo -n  " -L ${aport}:192.168.5.11:9000"  # connect to host1 VM
 )"
 
 ## TODO: compare with other port forwarding solutions
