@@ -26,7 +26,7 @@ deploy_gateway_for_one_team()
 	 --net:"class-net-pg"="class-net-pg" \
 	 --net:"t02-net1-pg"="t${teamnumber}-net1-pg" \
 	 --net:"t02-net4-pg"="t${teamnumber}-net4-pg" \
-	 -dm=thin /root/ovftool/centos68-x86-autoconf16.ovf vi://root:${esxi_pw}@${esxi_ip}
+	 -dm=thin /root/ovftool/centos68-x86-autoconf16-3nic.ovf vi://root:${esxi_pw}@${esxi_ip}
 }
 
 for t in "$@"; do
