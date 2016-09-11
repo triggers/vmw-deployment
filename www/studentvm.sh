@@ -13,7 +13,7 @@ echo "Running studentvm.sh script for $vmname"
 vmnumber="${vmname#*vm}"  # now just 01
 
 teamnumber="${vmname#t}"
-teamnumber="${teamnumber#-*}"  # now just 01
+teamnumber="${teamnumber%-*}"  # now just 01
 
 case "$vmnumber" in
     # manual{1,2} VMs:
