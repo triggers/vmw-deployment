@@ -12,7 +12,7 @@ fcheckoutput()
     tn="$1"
     vm="$2"
     results="$3"
-    echo -n "Team $tn $vm: "
+    echo -n "Team $tn     $vm: "
     if [[ "$results" == *poll-for-vm-auto-conf.sh* ]]; then
 	echo OK
     else
@@ -31,9 +31,19 @@ check-one-finished()
     $gwssh <<EOF
 $(declare -f fcheckoutput)
 
-for i in 11 12 21 22 31 32 33; do
-  vmssh="ssh -T centos@192.168.100.\$i"
-  fcheckoutput "$teamnumber" "\$i" "$($gwssh sudo ls /root/hide)"
+cat >~/.ssh/config <<'EOF2'
+Host *
+  KeepAlive yes
+  ForwardAgent no
+  ServerAliveInterval 60
+  GSSAPIAuthentication no
+EOF2
+chmod 600 ~/.ssh/config
+
+for i in 4.11 4.12 4.21 4.22 5.11 5.12 5.13; do
+  vmssh="ssh -T centos@192.168.\$i"
+  fcheckoutput "$teamnumber" "\$i" "\$(\$vmssh sudo ls /root/hide)"
+  echo "    \$(\$vmssh hostname)"
 done
 
 EOF
