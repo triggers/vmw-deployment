@@ -20,6 +20,8 @@ Host *
   ForwardAgent no
   ServerAliveInterval 60
   GSSAPIAuthentication no
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
 EOF2
 chmod 600 ~/.ssh/config
 
